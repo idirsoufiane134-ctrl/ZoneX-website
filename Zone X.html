@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZONEX - Mind-Bending Puzzles & Mysteries</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00ff88, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #00ff88;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%2300ff88" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ff00ff" stop-opacity="0.05"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"><animate attributeName="r" values="100;150;100" dur="3s" repeatCount="indefinite"/></circle><circle cx="800" cy="300" r="80" fill="url(%23a)"><animate attributeName="r" values="80;120;80" dur="4s" repeatCount="indefinite"/></circle></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px #00ff88;
+            }
+
+            to {
+                text-shadow: 0 0 30px #00ff88, 0 0 40px #00d4ff;
+            }
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .play-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            color: #000;
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.6);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 10px 30px rgba(0, 255, 136, 0.7);
+            }
+
+            100% {
+                box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .about p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Featured Riddles */
+        .riddles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .riddle-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .riddle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .riddle-card:hover::before {
+            left: 100%;
+        }
+
+        .riddle-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .riddle-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .riddle-text {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .riddle-answer {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 500;
+            border-left: 4px solid #00ff88;
+        }
+
+        /* CTA Section */
+        .cta {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .cta h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .insta-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #e4405f, #f77737);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .insta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(228, 64, 95, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
+        }
+
+        .insta-link {
+            background: linear-gradient(45deg, #e4405f, #f77737) !important;
+        }
+
+        .footer-text {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.95);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem 0;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hero {
+                padding-top: 100px;
+                height: 90vh;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .riddles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">ZONEX</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#riddles">Riddles</a></li>
+                <li><a href="#cta">Join</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero fade-in">
+        <h1>ZONEX</h1>
+        <p class="tagline">Your ultimate destination for mind-bending puzzles and mysteries!</p>
+        <a href="https://4d3942e1-63c7-4526-a614-c6816634d2c5-00-3nhpfrw27yjfr.spock.replit.dev/" class="play-btn"
+            target="_blank">
+            <i class="fas fa-play"></i> Play Now
+        </a>
+    </section>
+
+    <section id="about" class="about fade-in">
+        <h2>About ZONEX</h2>
+        <p>
+            Welcome to ZONEX, where your brain meets its ultimate challenge! We're passionate about
+            creating mind-bending riddles, brain teasers, and puzzles that will test your logic,
+            creativity, and problem-solving skills. Our mission is to entertain, educate, and
+            connect puzzle enthusiasts from around the world through immersive gaming experiences.
+        </p>
+    </section>
+
+    <section id="riddles">
+        <h2 class="fade-in">Featured Riddles</h2>
+        <div class="riddles-grid">
+            <div class="riddle-card fade-in">
+                <div class="riddle-title">🧠 The Missing Dollar</div>
+                <div class="riddle-text">
+                    Three friends check into a hotel room that costs $30. They each pay $10. Later,
+                    the manager realizes the room is only $25, so he sends the bellboy with $5
+                    to refund them. The bellboy pockets $2 and gives them $3 back. Each friend
+                    now paid $9 ($27 total) + $2 bellboy = $29. Where's the missing dollar?
+                </div>
+                <div class="riddle-answer">There's no missing dollar! The $27 includes the $25 room + $2 bellboy tip.
+                </div>
+            </div>
+
+            <div class="riddle-card fade-in">
+                <div class="riddle-title">🔥 Burning Rope</div>
+                <div class="riddle-text">
+                    You have two ropes that each take exactly 1 hour to burn from end to end.
+                    However, they don't burn at a constant rate. How can you measure exactly 45 minutes?
+                </div>
+                <div class="riddle-answer">Light both ends of one rope (30 min) and one end of the second. When the
+                    first finishes, light the other end of the second rope (15 min more = 45 min total).</div>
+            </div>
+
+            <div class="riddle-card fade-in">
+                <div class="riddle-title">⏰ Clock Puzzle</div>
+                <div class="riddle-text">
+                    What time is it when an elephant sits on your fence?
+                </div>
+                <div class="riddle-answer">Time to get a stronger fence! 🐘</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="cta fade-in">
+        <h2>Join the ZONEX Community</h2>
+        <p>Follow us for daily brain teasers, exclusive challenges, and puzzle-solving livestreams!</p>
+        <a href="https://www.instagram.com/zonex.hub?igsh=MXFrNWhrZW84M2Vjag==" class="insta-btn" target="_blank">
+            <i class="fab fa-instagram"></i> Follow on Instagram
+        </a>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/zonex.hub?igsh=MXFrNWhrZW84M2Vjag==" class="insta-link" target="_blank"
+                title="Instagram - @zonex.hub">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" target="_blank" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" target="_blank" title="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <div class="footer-text">
+            © 2026 ZONEX. All rights reserved. | Made with <i class="fas fa-brain"></i> for puzzle lovers.
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu
